@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
 
-#define N 20
-#define itera_max 1000
+#define N 2048
+#define itera_max 2000
+#define cores 1
 
 int grid [N][N];
 int new_grid[N][N];
@@ -10,6 +12,7 @@ int new_grid[N][N];
 void inicia_grids_zero(){
 	int i, j;
 	//iniciando com zero
+#pragma omp parallel for collapse(2)
 	for (i = 0; i < N; i++){
 		for (j = 0; j < N; j++){
 			grid[i][j] = 0;
@@ -162,6 +165,7 @@ void game_of_life(){
 	int i;
 	int j;
 
+#pragma omp parallel for collapse(2)
 	for (i = 0; i < N; i++){
 		for (j = 0; j < N; j++){
 			//aplicar as regras do jogo da vida
@@ -189,31 +193,51 @@ void game_of_life(){
 	}
 
 	//passar a nova geração para atual
-
+#pragma omp parallel for collapse(2)
 	for (i = 0; i < N; i++){
 		for (j = 0; j < N; j++){
 			grid[i][j] = new_grid[i][j];
 		}
 	}
+}
 
 
+int count_LiveCells(){
+	int i;
+	int j;
+	int cont = 0;
+
+#pragma omp parallel for collapse (2) reduction(+ : cont)
+	
+		for (i = 0; i < N; i++){
+			for (j = 0; j < N; j++){
+				if (grid[i][j] == 1){
+					cont++;
+				}
+			}
+		}
+	
+	return cont;
 }
 
 int main (){
 
 	int i, j;
 	int var;
-	int enter;
 	int vida;
+	int cont = 0;
+	double start;
+	double end;
+
+	omp_set_num_threads(cores);
 
 	inicia_grids_zero();
 
 	geracao_inicial();
 
+	start = omp_get_wtime ();
 	for (vida = 0; vida < itera_max; vida++){
-
-		printf("POSICAO ESTRANHA %d\n", grid[10][32]);
-		
+		/*
 		for (i = 0; i < N; i++){
 			for (j = 0; j < N; j++){
 
@@ -227,12 +251,18 @@ int main (){
 				}
 			}
 			printf("\n");
-		}
+		}*/
+		//printf("VIVOS: %d\n", count_LiveCells());
 		game_of_life();
-		enter = getchar();
+		//getchar(); //para fazer o for esperar por um enter
 	}
 
-	
+	end = omp_get_wtime();
+
+	cont = count_LiveCells ();
+	printf("VIVOS: %d\n", cont);
+	printf("CORES: %d\n", cores);
+	printf("TEMPO: %f\n", end - start);
 	
 
 
