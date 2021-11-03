@@ -73,33 +73,31 @@ class WorkerThread_R implements Runnable {
             System.out.flush();
         }
 
-        for(int i = 0; i < n; i++){
-            new_table[i] = table[i].clone();
-        }
-
         // Aplicação das regras do jogo
         for(int i = 0; i < row.size(); i++){
             int r = row.get(i);
             int c = col.get(i);
-            int n_alive_neighbors = getNeighbors(table, r, c);
+            int n_alive_neighbors = getNeighbors(this.table, r, c);
 
-            boolean cell_is_alive = (table[r][c] == 1);
+            boolean cell_is_alive = false;
+            if(this.table[r][c] == 1){
+                cell_is_alive = true;
+            }
+
             if(cell_is_alive){
-                //System.out.format(ANSI_RED + "%d "+ ANSI_RESET, table[i][j]);
                 // célula viva
-                if(n_alive_neighbors < 2){ 
-                    // viva e com menos de 2 vizinhos vivos
+                if(n_alive_neighbors == 2 || n_alive_neighbors == 3){ 
+                    new_table[r][c] = 1;
+                }else{
                     new_table[r][c] = 0;
-                }else if(n_alive_neighbors >= 4){
-                    new_table[r][c] = 0;
-                    // viva e com mais de 4 vizinhos vivos
                 }
-                // viva e com 2 ou 3 vizinhos vivos [FAZ NADA]
                 n_alive++;
             }else{
                 // célula morta
                 if(n_alive_neighbors == 3){
-                    new_table[r][c] = 1; // torna-se viva
+                    new_table[r][c] = 1;
+                }else{
+                    new_table[r][c] = 0;
                 }
             }                
         }
