@@ -262,7 +262,7 @@ int main (){
 	cont = count_LiveCells ();
 	printf("VIVOS: %d\n", cont);
 	printf("CORES: %d\n", cores);
-	printf("TEMPO: %f\n", end - start);
+	printf("TEMPO: %.2f\n", end - start);
 	
 
 

@@ -1,6 +1,7 @@
 package high_life_pkg;
 
 import java.util.ArrayList;
+import java.text.*;
 
 public class HighLife {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -195,10 +196,12 @@ public class HighLife {
             cont++;            
         }
 
-        // Finaliza cálculo do tempo de execução
-        long calcTime = System.currentTimeMillis() - startTime;
+        DecimalFormat df = new DecimalFormat("##.##");
 
-        System.out.println("\nSimulação Finalizada em "+calcTime+" ms!");
+        // Finaliza cálculo do tempo de execução
+        double calcTime = (System.currentTimeMillis() - startTime)/1000.0;
+
+        System.out.println("\nSimulação Finalizada em "+df.format(calcTime)+" segs!");
         System.out.println(n_threads+" threads foram utilizadas\n");
         System.out.format("[%d células sobreviveram]\n\n", n_alive);
     }
