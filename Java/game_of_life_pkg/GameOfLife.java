@@ -196,9 +196,9 @@ public class GameOfLife {
         }
 
         // Finaliza cálculo do tempo de execução
-        long calcTime = System.currentTimeMillis() - startTime;
+        long calcTime = (System.currentTimeMillis() - startTime)/1000;
 
-        System.out.println("\nSimulação Finalizada em "+calcTime+" ms!");
+        System.out.println("\nSimulação Finalizada em "+calcTime+" s!");
         System.out.println(n_threads+" threads foram utilizadas\n");
         System.out.format("[%d células sobreviveram]\n\n", n_alive);
     }
