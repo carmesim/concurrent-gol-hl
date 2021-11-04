@@ -1,5 +1,6 @@
 package game_of_life_pkg;
 
+import java.text.*;
 import java.util.ArrayList;
 
 public class GameOfLife {
@@ -195,10 +196,12 @@ public class GameOfLife {
             cont++;            
         }
 
-        // Finaliza cálculo do tempo de execução
-        long calcTime = (System.currentTimeMillis() - startTime)/1000;
+        DecimalFormat df = new DecimalFormat("##.##");
 
-        System.out.println("\nSimulação Finalizada em "+calcTime+" s!");
+        // Finaliza cálculo do tempo de execução
+        double calcTime = (System.currentTimeMillis() - startTime)/1000.0;
+
+        System.out.println("\nSimulação Finalizada em "+df.format(calcTime)+" segs!");
         System.out.println(n_threads+" threads foram utilizadas\n");
         System.out.format("[%d células sobreviveram]\n\n", n_alive);
     }
