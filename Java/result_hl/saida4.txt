@@ -1,0 +1,6 @@
+
+Simulação Finalizada em 215,37 segs!
+4 threads foram utilizadas
+
+[5 células sobreviveram]
+
