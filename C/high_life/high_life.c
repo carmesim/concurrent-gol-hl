@@ -186,7 +186,7 @@ void game_of_life(){
 			}
 
 			//morta com exatamente 3 vizinhos deve se tornar viva
-			else if (grid[i][j] == 0 && getNeighbors(grid, i, j) == 3){
+            else if (grid[i][j] == 0 && ((getNeighbors(grid, i, j) == 3) || getNeighbors(grid, i, j) == 6)){
 				new_grid[i][j] = 1;
 			}
 		}
@@ -264,20 +264,5 @@ int main (){
 	printf("CORES: %d\n", cores);
 	printf("TEMPO: %f\n", end - start);
 	
-
-
-/*
-	for (i = 0; i < N; i++){
-		for (j = 0; j < N; j++){
-			printf("%d", grid[i][j]);
-		}
-		printf("\n");
-	}
-*/
-
-
-
-
-
 	return 0;
 }
